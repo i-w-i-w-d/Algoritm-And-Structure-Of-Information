@@ -1,25 +1,33 @@
 import sys
 
 def solve():
-    data = sys.stdin.read().strip()
-    if not data:
+    expr = sys.stdin.read().strip()
+    if not expr:
         return
 
+    prec = {'+': 1, '-': 1, '*': 2, '/': 2}
     stack = []
-    operators = {'+', '-', '*', '/'}
 
-    for char in reversed(data):
-        if char not in operators:
-            stack.append(char)
+    for char in reversed(expr):
+        if char not in prec:
+            stack.append((char, 9))
         else:
-            op1 = stack.pop()
-            op2 = stack.pop()
+            op1_val, op1_prec = stack.pop()
+            op2_val, op2_prec = stack.pop()
 
-            new_expr = f"({op1}{char}{op2})"
-            stack.append(new_expr)
+            curr_prec = prec[char]
+
+            if op1_prec < curr_prec:
+                op1_val = f"({op1_val})"
+
+            if op2_prec < curr_prec or (op2_prec == curr_prec and char in '-/'):
+                op2_val = f"({op2_val})"
+
+            new_expr = f"{op1_val}{char}{op2_val}"
+            stack.append((new_expr, curr_prec))
 
     if stack:
-        print(stack.pop())
+        print(stack.pop()[0])
 
 if __name__ == "__main__":
     solve()

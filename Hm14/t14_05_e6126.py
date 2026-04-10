@@ -22,26 +22,22 @@ class Queue:
         return "ok"
 
     def pop(self):
-        if not self.head:
-            return "error"
+        if not self.head: return "error"
         val = self.head.data
         self.head = self.head.next
-        if not self.head:
-            self.tail = None
+        if not self.head: self.tail = None
         self._size -= 1
         return val
 
     def front(self):
-        if not self.head:
-            return "error"
+        if not self.head: return "error"
         return self.head.data
 
     def size(self):
         return self._size
 
     def clear(self):
-        self.head = None
-        self.tail = None
+        self.head = self.tail = None
         self._size = 0
         return "ok"
 
@@ -49,19 +45,13 @@ def main():
     q = Queue()
     for line in sys.stdin:
         parts = line.split()
-        if not parts:
-            continue
+        if not parts: continue
         cmd = parts[0]
-        if cmd == "push":
-            print(q.push(int(parts[1])))
-        elif cmd == "pop":
-            print(q.pop())
-        elif cmd == "front":
-            print(q.front())
-        elif cmd == "size":
-            print(q.size())
-        elif cmd == "clear":
-            print(q.clear())
+        if cmd == "push": print(q.push(parts[1]))
+        elif cmd == "pop": print(q.pop())
+        elif cmd == "front": print(q.front())
+        elif cmd == "size": print(q.size())
+        elif cmd == "clear": print(q.clear())
         elif cmd == "exit":
             print("bye")
             break

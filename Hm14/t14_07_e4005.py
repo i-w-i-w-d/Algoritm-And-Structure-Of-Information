@@ -16,23 +16,25 @@ def solve():
     limit = 200000
 
     while q1 and q2 and moves < limit:
+        moves += 1
         c1 = q1.popleft()
         c2 = q2.popleft()
 
         if c1 == 0 and c2 == n - 1:
-            q1.append(c1)
-            q1.append(c2)
+            winner = 1
         elif c2 == 0 and c1 == n - 1:
-            q2.append(c1)
-            q2.append(c2)
+            winner = 2
         elif c1 > c2:
+            winner = 1
+        else:
+            winner = 2
+
+        if winner == 1:
             q1.append(c1)
             q1.append(c2)
         else:
             q2.append(c1)
             q2.append(c2)
-
-        moves += 1
 
     if not q1:
         print(f"second {moves}")
